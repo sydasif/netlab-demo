@@ -1,0 +1,24 @@
+provider: clab
+
+nodes:
+  R1:
+    device: iol
+    image: asifsyd/cisco_iol:17.12.01
+  D1:
+    device: eos
+    image: asifsyd/ceos:4.32.0F
+  D2:
+    device: eos
+    image: asifsyd/ceos:4.32.0F
+  S1:
+    device: ioll2
+    image: asifsyd/cisco_iol:l2-17.12.01
+  S2:
+    device: ioll2
+    image: asifsyd/cisco_iol:l2-17.12.01
+
+links:
+  - R1-D1
+  - R1-D2
+  - D1-S1
+  - D2-S2
