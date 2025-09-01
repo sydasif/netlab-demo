@@ -19,6 +19,14 @@ nodes:
   S1:
   S2:
 
+vlans:
+  vlan_10:
+    id: 10
+    prefix: 10.10.10.0/24
+  vlan_20:
+    id: 20
+    prefix: 10.20.20.0/24
+
 groups:
   core:
     members: [R1]
@@ -29,15 +37,24 @@ groups:
   dist:
     members: [D1, D2]
     device: eos
-    module: [ospf]
+    module: [vlan, ospf]
     ospf:
       area: 0
+    vlan:
+      mode: irb
   access:
     members: [S1, S2]
     device: ioll2
+    module: [vlan]
+    vlan:
+      mode: bridge
 
 links:
   - R1-D1
   - R1-D2
-  - D1-S1
-  - D2-S2
+  - D1:
+    S1:
+    vlan.trunk: [vlan_10]
+  - D2:
+    S2:
+    vlan.trunk: [vlan_20]
