@@ -17,6 +17,20 @@ nodes:
     device: ioll2
     image: asifsyd/cisco_iol:l2-17.12.01
 
+groups:
+  core:
+    members: [R1]
+    module: [ospf]
+    ospf:
+      area: 0
+  dist:
+    members: [D1, D2]
+    module: [ospf]
+    ospf:
+      area: 0
+  access:
+    members: [S1, S2]
+
 links:
   - R1-D1
   - R1-D2
