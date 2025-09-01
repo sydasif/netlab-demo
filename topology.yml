@@ -1,35 +1,40 @@
 provider: clab
 
+defaults:
+  devices:
+    iol:
+      clab:
+        image: asifsyd/cisco_iol:17.12.01
+    eos:
+      clab:
+        image: asifsyd/ceos:4.32.0F
+    ioll2:
+      clab:
+        image: asifsyd/cisco_iol:l2-17.12.01
+
 nodes:
   R1:
-    device: iol
-    image: asifsyd/cisco_iol:17.12.01
   D1:
-    device: eos
-    image: asifsyd/ceos:4.32.0F
   D2:
-    device: eos
-    image: asifsyd/ceos:4.32.0F
   S1:
-    device: ioll2
-    image: asifsyd/cisco_iol:l2-17.12.01
   S2:
-    device: ioll2
-    image: asifsyd/cisco_iol:l2-17.12.01
 
 groups:
   core:
     members: [R1]
+    device: iol
     module: [ospf]
     ospf:
       area: 0
   dist:
     members: [D1, D2]
+    device: eos
     module: [ospf]
     ospf:
       area: 0
   access:
     members: [S1, S2]
+    device: ioll2
 
 links:
   - R1-D1
