@@ -15,7 +15,9 @@ defaults:
 nodes:
   R1:
   D1:
+    config: [templates/D1.j2]
   D2:
+    config: [templates/D2.j2]
   S1:
   S2:
 
@@ -54,7 +56,7 @@ links:
   - R1-D2
   - D1:
     S1:
-    vlan.trunk: [vlan_10]
+    vlan.trunk: [vlan_10, vlan_20]
   - D2:
     S2:
-    vlan.trunk: [vlan_20]
+    vlan.trunk: [vlan_10, vlan_20]
