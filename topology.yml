@@ -15,19 +15,18 @@ defaults:
 nodes:
   R1:
   D1:
-    config: [templates/D1.j2]
   D2:
-    config: [templates/D2.j2]
   S1:
   S2:
 
 vlans:
   vlan_10:
-    id: 10
-    prefix: 10.10.10.0/24
+    gateway: true
   vlan_20:
-    id: 20
-    prefix: 10.20.20.0/24
+    gateway: true
+
+gateway:
+  protocol: vrrp
 
 groups:
   core:
@@ -39,7 +38,7 @@ groups:
   dist:
     members: [D1, D2]
     device: eos
-    module: [vlan, ospf]
+    module: [vlan, ospf, gateway]
     ospf:
       area: 0
     vlan:
