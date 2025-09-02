@@ -12,12 +12,8 @@ defaults:
       clab:
         image: asifsyd/cisco_iol:l2-17.12.01
 
-nodes:
-  R1:
-  D1:
-  D2:
-  S1:
-  S2:
+gateway:
+  protocol: vrrp
 
 vlans:
   vlan_10:
@@ -25,8 +21,18 @@ vlans:
   vlan_20:
     gateway: true
 
-gateway:
-  protocol: vrrp
+nodes:
+  R1:
+  D1:
+    gateway:
+      vrrp:
+        priority: 200
+  D2:
+    gateway:
+      vrrp:
+        priority: 100
+  S1:
+  S2:
 
 groups:
   core:
