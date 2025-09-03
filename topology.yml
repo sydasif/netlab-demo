@@ -1,6 +1,9 @@
+---
+plugin: [multilab]
 provider: clab
 
 defaults:
+  multilab.id: 1 # Unique ID to avoid conflict with previous lab (ID 1)
   devices:
     iol:
       clab:
@@ -11,14 +14,22 @@ defaults:
     ioll2:
       clab:
         image: asifsyd/cisco_iol:l2-17.12.01
+    linux:
+      clab:
+        image: alpine:latest
+  devices.linux.group_vars.netlab_lldp_enable: False # Match previous lab
 
 gateway:
   protocol: vrrp
+  vrrp:
+    group: 1 # Explicit VRRP group ID for consistency
 
 vlans:
   vlan_10:
+    id: 10 # Explicit VLAN ID
     gateway: true
   vlan_20:
+    id: 20
     gateway: true
 
 nodes:
@@ -33,6 +44,8 @@ nodes:
         priority: 100
   S1:
   S2:
+  H1:
+  H2:
 
 groups:
   core:
@@ -55,10 +68,20 @@ groups:
     module: [vlan]
     vlan:
       mode: bridge
+  host:
+    members: [H1, H2]
+    device: linux
+    role: host
 
 links:
   - R1-D1
   - R1-D2
+  - H1:
+    S1:
+      vlan.access: vlan_10
+  - H2:
+    S2:
+      vlan.access: vlan_20
   - D1:
     S1:
     vlan.trunk: [vlan_10, vlan_20]
