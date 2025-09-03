@@ -3,7 +3,7 @@ plugin: [multilab]
 provider: clab
 
 defaults:
-  multilab.id: 1 # Unique ID to avoid conflict with previous lab (ID 1)
+  multilab.id: 1
   devices:
     iol:
       clab:
@@ -17,35 +17,43 @@ defaults:
     linux:
       clab:
         image: alpine:latest
-  devices.linux.group_vars.netlab_lldp_enable: False # Match previous lab
 
-gateway:
-  protocol: vrrp
-  vrrp:
-    group: 1 # Explicit VRRP group ID for consistency
+module: [gateway]
 
 vlans:
   vlan_10:
-    id: 10 # Explicit VLAN ID
-    gateway: true
+    id: 10
+    prefix: 172.16.0.0/24
+    gateway:
+      ipv4: 172.16.0.254
   vlan_20:
     id: 20
-    gateway: true
+    prefix: 172.16.1.0/24
+    gateway:
+      ipv4: 172.16.1.254
 
 nodes:
   R1:
   D1:
-    gateway:
-      vrrp:
-        priority: 200
+    config: [templates/D1.j2]
   D2:
-    gateway:
-      vrrp:
-        priority: 100
+    config: [templates/D2.j2]
   S1:
+    config: [templates/S1.j2]
   S2:
+    config: [templates/S2.j2]
   H1:
+    routing:
+      static:
+        - ipv4: 172.16.0.0/24
+          nexthop:
+            ipv4: 172.16.0.254
   H2:
+    routing:
+      static:
+        - ipv4: 172.16.1.0/24
+          nexthop:
+            ipv4: 172.16.1.254
 
 groups:
   core:
@@ -57,7 +65,7 @@ groups:
   dist:
     members: [D1, D2]
     device: eos
-    module: [vlan, ospf, gateway]
+    module: [vlan, ospf]
     ospf:
       area: 0
     vlan:
@@ -71,8 +79,7 @@ groups:
   host:
     members: [H1, H2]
     device: linux
-    role: host
-
+    module: [routing]
 links:
   - R1-D1
   - R1-D2
@@ -82,9 +89,6 @@ links:
   - H2:
     S2:
       vlan.access: vlan_20
-  - D1:
-    S1:
+  - group: access_trunk
     vlan.trunk: [vlan_10, vlan_20]
-  - D2:
-    S2:
-    vlan.trunk: [vlan_10, vlan_20]
+    members: [D1-S1, D2-S2, D1-D2]
