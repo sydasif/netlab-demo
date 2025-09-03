@@ -1,5 +1,13 @@
+spanning-tree mode rapid-pvst
+spanning-tree vlan-id 10 priority 8192
+spanning-tree vlan-id 20 priority 4096
+
 interface Vlan10
-  vrrp 10 ipv4 10.10.10.1
+ vrrp 10 ipv4 172.16.0.254
+ vrrp 10 priority 100
+ vrrp 10 preempt
+
 interface Vlan20
-  vrrp 20 ipv4 10.20.20.1
-  vrrp 20 priority-level 200
+ vrrp 20 ipv4 172.16.1.254
+ vrrp 20 priority 110
+ vrrp 20 preempt
