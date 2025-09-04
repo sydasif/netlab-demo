@@ -1,17 +1,11 @@
 ---
+name: campus
 provider: clab
 
-defaults:
-  devices:
-    iol:
-      clab:
-        image: asifsyd/cisco_iol:17.12.01
-    ioll2:
-      clab:
-        image: asifsyd/cisco_iol:l2-17.12.01
-    linux:
-      clab:
-        image: alpine:latest
+defaults.devices:
+  iol.clab.image: asifsyd/cisco_iol:17.12.01
+  ioll2.clab.image: asifsyd/cisco_iol:l2-17.12.01
+  linux.clab.image: alpine:latest
 
 module: [gateway]
 
@@ -28,9 +22,9 @@ vlans:
 nodes:
   R1:
   D1:
-    config: [configs/D1.j2]
+    config: [configs]
   D2:
-    config: [configs/D2.j2]
+    config: [configs]
   S1:
   S2:
   H1:
