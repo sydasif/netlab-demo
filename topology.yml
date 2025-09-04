@@ -1,16 +1,11 @@
 ---
-plugin: [multilab]
 provider: clab
 
 defaults:
-  multilab.id: 1
   devices:
     iol:
       clab:
         image: asifsyd/cisco_iol:17.12.01
-    eos:
-      clab:
-        image: asifsyd/ceos:4.32.0F
     ioll2:
       clab:
         image: asifsyd/cisco_iol:l2-17.12.01
@@ -23,72 +18,61 @@ module: [gateway]
 vlans:
   vlan_10:
     id: 10
-    prefix: 172.16.0.0/24
     gateway:
-      ipv4: 172.16.0.254
+      ipv4: 172.16.0.254/24
   vlan_20:
     id: 20
-    prefix: 172.16.1.0/24
     gateway:
-      ipv4: 172.16.1.254
+      ipv4: 172.16.1.254/24
 
 nodes:
   R1:
   D1:
-    config: [templates/D1.j2]
+    config: [configs/D1.j2]
   D2:
-    config: [templates/D2.j2]
+    config: [configs/D2.j2]
   S1:
-    config: [templates/S1.j2]
   S2:
-    config: [templates/S2.j2]
   H1:
-    routing:
-      static:
-        - ipv4: 172.16.0.0/24
-          nexthop:
-            ipv4: 172.16.0.254
   H2:
-    routing:
-      static:
-        - ipv4: 172.16.1.0/24
-          nexthop:
-            ipv4: 172.16.1.254
+  H3:
+  H4:
 
 groups:
-  core:
+  CORE:
     members: [R1]
     device: iol
+    role: router
     module: [ospf]
-    ospf:
-      area: 0
-  dist:
+  DISTRIBUTION:
     members: [D1, D2]
-    device: eos
+    device: ioll2
     module: [vlan, ospf]
-    ospf:
-      area: 0
     vlan:
       mode: irb
-  access:
+  ACCESS:
     members: [S1, S2]
     device: ioll2
     module: [vlan]
     vlan:
       mode: bridge
-  host:
-    members: [H1, H2]
+  hosts:
+    members: [H1, H2, H3, H4]
     device: linux
-    module: [routing]
+    role: host
+
 links:
   - R1-D1
   - R1-D2
-  - H1:
-    S1:
-      vlan.access: vlan_10
-  - H2:
-    S2:
-      vlan.access: vlan_20
+
+  - group: vlan_10
+    vlan.access: vlan_10
+    members: [H1-S1, H4-S2]
+
+  - group: vlan_20
+    vlan.access: vlan_20
+    members: [H2-S2, H3-S1]
+
   - group: access_trunk
     vlan.trunk: [vlan_10, vlan_20]
-    members: [D1-S1, D2-S2, D1-D2]
+    members: [D1-S1, D1-S2, D2-S1, D2-S2]
