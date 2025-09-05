@@ -9,28 +9,28 @@ defaults.devices:
 
 module: [gateway]
 
-vlans:
-  vlan_10:
-    id: 10
-    gateway:
-      ipv4: 172.16.0.254/24
-  vlan_20:
-    id: 20
-    gateway:
-      ipv4: 172.16.1.254/24
-
 nodes:
   R1:
   D1:
-    config: [configs]
   D2:
-    config: [configs]
   S1:
   S2:
   H1:
   H2:
   H3:
   H4:
+
+vlans:
+  vlan_10:
+    id: 10
+    gateway:
+      ipv4: 172.16.0.254/24
+    links: [H1-S1, H4-S2]
+  vlan_20:
+    id: 20
+    gateway:
+      ipv4: 172.16.1.254/24
+    links: [H2-S2, H3-S1]
 
 groups:
   CORE:
@@ -42,6 +42,7 @@ groups:
     members: [D1, D2]
     device: ioll2
     module: [vlan, ospf]
+    config: [configs]
     vlan:
       mode: irb
   ACCESS:
@@ -58,14 +59,6 @@ groups:
 links:
   - R1-D1
   - R1-D2
-
-  - group: vlan_10
-    vlan.access: vlan_10
-    members: [H1-S1, H4-S2]
-
-  - group: vlan_20
-    vlan.access: vlan_20
-    members: [H2-S2, H3-S1]
 
   - group: access_trunk
     vlan.trunk: [vlan_10, vlan_20]
