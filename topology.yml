@@ -2,10 +2,12 @@
 name: campus
 provider: clab
 
-defaults.devices:
-  iol.clab.image: asifsyd/cisco_iol:17.12.01
-  ioll2.clab.image: asifsyd/cisco_iol:l2-17.12.01
-  linux.clab.image: alpine:latest
+defaults:
+  providers.clab.bridge_type: ovs-bridge
+  devices:
+    iol.clab.image: asifsyd/cisco_iol:17.12.01
+    ioll2.clab.image: asifsyd/cisco_iol:l2-17.12.01
+    linux.clab.image: alpine:latest
 
 nodes:
   R1:
