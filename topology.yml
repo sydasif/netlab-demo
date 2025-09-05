@@ -7,10 +7,10 @@ defaults.devices:
   ioll2.clab.image: asifsyd/cisco_iol:l2-17.12.01
   linux.clab.image: alpine:latest
 
-module: [gateway]
-
 nodes:
   R1:
+    device: iol
+    module: [ospf]
   D1:
   D2:
   S1:
@@ -21,22 +21,14 @@ nodes:
   H4:
 
 vlans:
-  vlan_10:
+  VLAN_10:
     id: 10
-    gateway:
-      ipv4: 172.16.0.254/24
     links: [H1-S1, H4-S2]
-  vlan_20:
+  VLAN_20:
     id: 20
-    gateway:
-      ipv4: 172.16.1.254/24
     links: [H2-S2, H3-S1]
 
 groups:
-  CORE:
-    members: [R1]
-    device: iol
-    module: [ospf]
   DISTRIBUTION:
     members: [D1, D2]
     device: ioll2
@@ -50,15 +42,27 @@ groups:
     module: [vlan]
     vlan:
       mode: bridge
-  hosts:
-    members: [H1, H2, H3, H4]
+  VLAN_10:
+    members: [H1, H4]
     device: linux
+    module: [routing]
     role: host
+    routing.static:
+      - ipv4: 0.0.0.0/0
+        nexthop.ipv4: 172.16.0.254
+  VLAN_20:
+    members: [H2, H3]
+    device: linux
+    module: [routing]
+    role: host
+    routing.static:
+      - ipv4: 0.0.0.0/0
+        nexthop.ipv4: 172.16.1.254
 
 links:
   - R1-D1
   - R1-D2
 
   - group: access_trunk
-    vlan.trunk: [vlan_10, vlan_20]
+    vlan.trunk: [VLAN_10, VLAN_20]
     members: [D1-S1, D1-S2, D2-S1, D2-S2]
