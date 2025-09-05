@@ -36,7 +36,6 @@ groups:
   CORE:
     members: [R1]
     device: iol
-    role: router
     module: [ospf]
   DISTRIBUTION:
     members: [D1, D2]
