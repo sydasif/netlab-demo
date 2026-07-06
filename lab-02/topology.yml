@@ -1,0 +1,85 @@
+---
+name: campus
+provider: libvirt
+version: 1.0
+
+defaults:
+  devices:
+    iosv.libvirt.image: cisco/iosv:15.9.M3
+    iosv.warnings.paramiko: false
+    iosvl2.libvirt.image: cisco/iosvl2:15.2
+    iosvl2.warnings.paramiko: false
+    ioll2.clab.image: asifsyd/cisco_iol:l2-17.12.01
+    linux.clab.image: alpine:latest
+
+nodes:
+  R1:
+    device: iosv
+    module: [ospf]
+  D1:
+    device: iosvl2
+  D2:
+    device: iosvl2
+  S1:
+    device: ioll2
+    provider: clab
+  S2:
+    device: ioll2
+    provider: clab
+  H1:
+    device: linux
+    provider: clab
+  H2:
+    device: linux
+    provider: clab
+  H3:
+    device: linux
+    provider: clab
+  H4:
+    device: linux
+    provider: clab
+
+vlans:
+  VLAN_10:
+    id: 10
+    links: [H1-S1, H4-S2]
+  VLAN_20:
+    id: 20
+    links: [H2-S2, H3-S1]
+
+groups:
+  DISTRIBUTION:
+    members: [D1, D2]
+    module: [vlan, ospf]
+    config: [template]
+    vlan:
+      mode: irb
+  ACCESS:
+    members: [S1, S2]
+    module: [vlan]
+    vlan:
+      mode: bridge
+  VLAN_10:
+    members: [H1, H4]
+    device: linux
+    module: [routing]
+    role: host
+    routing.static:
+      - ipv4: 0.0.0.0/0
+        nexthop.ipv4: 172.16.0.254
+  VLAN_20:
+    members: [H2, H3]
+    device: linux
+    module: [routing]
+    role: host
+    routing.static:
+      - ipv4: 0.0.0.0/0
+        nexthop.ipv4: 172.16.1.254
+
+links:
+  - R1-D1
+  - R1-D2
+
+  - group: access_trunk
+    vlan.trunk: [VLAN_10, VLAN_20]
+    members: [D1-S1, D1-S2, D2-S1, D2-S2]

@@ -4,3 +4,6 @@ host_vars/
 ansible.cfg
 hosts.yml
 netlab*
+.vagrant
+node_files/
+Vagrantfile
