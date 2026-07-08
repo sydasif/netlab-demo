@@ -1,0 +1,21 @@
+---
+R1:
+  hostname: 192.168.121.101
+  groups:
+    - CORE
+D1:
+  hostname: 192.168.121.102
+  groups:
+    - DIST
+D2:
+  hostname: 192.168.121.103
+  groups:
+    - DIST
+S1:
+  hostname: 192.168.121.104
+  groups:
+    - ACCESS
+S2:
+  hostname: 192.168.121.105
+  groups:
+    - ACCESS

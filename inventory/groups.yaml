@@ -1,0 +1,24 @@
+---
+CORE:
+  hosts:
+    R1:
+  username: vagrant
+  password: vagrant
+  platform: ios
+  data: core
+DIST:
+  hosts:
+    D1:
+    D2:
+  username: vagrant
+  password: vagrant
+  platform: ios
+  data: dist
+ACCESS:
+  hosts:
+    S1:
+    S2:
+  username: admin
+  password: admin
+  platform: ios
+  data: access

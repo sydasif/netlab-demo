@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "nornir": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "--from",
+        "git+https://github.com/sydasif/nornir-napalm-mcp",
+        "nornir-napalm-mcp"
+      ],
+      "env": {
+        "NORNIR_CONFIG": "/data/projects/netlab-demo/config.yaml"
+      }
+    }
+  }
+}
