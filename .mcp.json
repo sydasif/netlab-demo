@@ -9,7 +9,7 @@
         "nornir-napalm-mcp"
       ],
       "env": {
-        "NORNIR_CONFIG": "/data/projects/netlab-demo/config.yaml"
+        "NORNIR_CONFIG": "/home/zulu/Projects/netlab-demo/config.yaml"
       }
     }
   }
