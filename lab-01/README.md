@@ -9,6 +9,7 @@ This project sets up a multi-layer network lab using Netlab tool (Containerlab),
   - [Project Overview](#project-overview)
   - [Prerequisites](#prerequisites)
   - [Setup Instructions](#setup-instructions)
+  - [Device Credentials](#device-credentials)
   - [Network Topology](#network-topology)
     - [Open vSwitch Bridges](#open-vswitch-bridges)
     - [Custom Configuration Templates](#custom-configuration-templates)
@@ -88,6 +89,22 @@ Open vSwitch must be installed for `netlab up` to succeed.
     ```bash
     netlab connect R1
     ```
+
+## Device Credentials
+
+All network devices in this lab run Cisco IOL, whose default login is
+`admin` / `admin`. This applies to every node — R1, D1, D2, S1, and S2.
+
+This differs from [lab-02](../lab-02/README.md), where the IOSv/IOSvL2
+VMs (R1, D1, D2) use `vagrant` / `vagrant`.
+
+If you use the Nornir MCP server while this lab is running, update the
+shared inventory to match:
+
+- `inventory/groups.yaml`: set `username: admin` / `password: admin` on
+  the CORE and DIST groups (ACCESS is already `admin` / `admin`).
+- `inventory/hosts.yaml`: replace management IPs with this lab's clab
+  mgmt addresses (run `netlab status` to list them).
 
 ## Network Topology
 

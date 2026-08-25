@@ -60,8 +60,9 @@ This repository demonstrates **network lab automation** using two complementary 
 ### Inventory & Credentials
 
 - **`inventory/hosts.yaml`** — Nornir inventory read by MCP server (NORNIR_CONFIG → `config.yaml`)
-  - Originally had `vagrant/vagrant` for all devices — **incorrect for IOL** which uses `admin/admin`
-  - Fixed: all five devices now use `username: admin / password: admin`, matching netlab's IOL defaults (`group_vars/iol/topology.json`)
+  - One shared inventory serves whichever lab is up; management IPs and credentials must match the active lab
+  - lab-01 (all IOL): every device uses `admin/admin` (netlab IOL default, `group_vars/iol/topology.json`)
+  - lab-02: R1/D1/D2 (IOSv/IOSvL2 VMs) use `vagrant/vagrant`; S1/S2 (IOL containers) use `admin/admin` — current `groups.yaml` matches this lab
 - **`inventory/groups.yaml`** — group definitions (CORE, DIST, ACCESS) with per-group usernames/passwords/platform
 - **`inventory/defaults.yaml`** — Napalm connection extras (no agent, no key lookup)
 
@@ -80,7 +81,7 @@ This repository demonstrates **network lab automation** using two complementary 
 | Issue | Fix |
 |-------|-----|
 | `NORNIR_CONFIG` points at directory | Set to absolute path of `config.yaml` in `.mcp.json` |
-| IOL devices fail auth | Credentials must be `admin/admin` (IOL default), not `vagrant/vagrant` |
+| IOL devices fail auth | IOL containers use `admin/admin`; IOSv/IOSvL2 VMs use `vagrant/vagrant` — match creds to the active lab in `groups.yaml` |
 | MCP server won't start after config change | Kill any `uvx nornir-napalm-mcp` processes and reconnect `/mcp` |
 | `netlab up` fails on OVS | Ensure `openvswitch-switch` is installed: `sudo apt install openvswitch-switch` |
 | Host key changed SSH warning | SSH host keys auto-trusted via `ansible.cfg` (`UserKnownHostsFile=/dev/null`) — if MCP still fails, reload inventory (`nornir_reload_inventory`) |

@@ -525,11 +525,19 @@ for the standard IOS command-line experience.
 For VM-based nodes, SSH directly to the management IP:
 
 ```bash
-ssh cisco@192.168.121.101
+ssh vagrant@192.168.121.101
 ```
 
-Management IPs are shown by `netlab status`. Default credentials are defined by the Vagrant box — typically `cisco`/`cisco` for
-IOSv boxes.
+Management IPs are shown by `netlab status`. Credentials differ by device type:
+
+| Devices | Platform | Username | Password |
+| ------- | -------- | -------- | -------- |
+| R1, D1, D2 | IOSv / IOSvL2 VMs | `vagrant` | `vagrant` |
+| S1, S2 | IOL-L2 containers | `admin` | `admin` |
+
+This matches the shared Nornir inventory (`inventory/groups.yaml`) as-is:
+CORE/DIST use `vagrant`/`vagrant`, ACCESS uses `admin`/`admin`. Note that
+[lab-01](../lab-01/README.md) differs — all its IOL devices use `admin`/`admin`.
 
 ---
 

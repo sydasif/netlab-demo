@@ -32,9 +32,21 @@ A Model Context Protocol (MCP) server that exposes network devices to AI assista
 
 In Claude Code, run `/mcp` to reconnect the server. The MCP config is in `.mcp.json`.
 
+### Credentials
+
+One shared Nornir inventory (`inventory/`) serves whichever lab is currently up — there is a single `config.yaml` and `.mcp.json`. Credentials differ per lab because the device platforms differ:
+
+| Lab | Devices | Username | Password |
+| --- | ------- | -------- | -------- |
+| lab-01 (all IOL containers) | R1, D1, D2, S1, S2 | `admin` | `admin` |
+| lab-02 (IOSv/IOSvL2 VMs)    | R1, D1, D2          | `vagrant` | `vagrant` |
+| lab-02 (IOL containers)     | S1, S2              | `admin` | `admin` |
+
+When switching labs, update `inventory/groups.yaml` (per-group `username`/`password`) and `inventory/hosts.yaml` (management IPs from `netlab status`) to match the active lab.
+
 ### Inventory Structure
 
-See [inventory/README.md](./inventory/README.md) for device details, credentials, and how to add new devices.
+Device details live in [inventory/hosts.yaml](./inventory/hosts.yaml), group definitions in [inventory/groups.yaml](./inventory/groups.yaml), and NAPALM connection options in [inventory/defaults.yaml](./inventory/defaults.yaml).
 
 ## Prerequisites
 
