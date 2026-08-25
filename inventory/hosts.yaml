@@ -3,29 +3,19 @@ R1:
   hostname: 192.168.121.101
   groups:
     - CORE
-  username: admin
-  password: admin
 D1:
   hostname: 192.168.121.102
   groups:
     - DIST
-  username: admin
-  password: admin
 D2:
   hostname: 192.168.121.103
   groups:
     - DIST
-  username: admin
-  password: admin
 S1:
   hostname: 192.168.121.104
   groups:
     - ACCESS
-  username: admin
-  password: admin
 S2:
   hostname: 192.168.121.105
   groups:
     - ACCESS
-  username: admin
-  password: admin
