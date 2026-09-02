@@ -22,3 +22,10 @@ ACCESS:
   password: admin
   platform: ios
   data: access
+  connection_options:
+    napalm:
+      platform: ios
+      extras:
+        optional_args:
+          dest_file_system: "unix:"
+          inline_transfer: true
