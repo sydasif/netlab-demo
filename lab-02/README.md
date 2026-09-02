@@ -536,8 +536,7 @@ Management IPs are shown by `netlab status`. Credentials differ by device type:
 | S1, S2 | IOL-L2 containers | `admin` | `admin` |
 
 This matches the shared Nornir inventory (`inventory/groups.yaml`) as-is:
-CORE/DIST use `vagrant`/`vagrant`, ACCESS uses `admin`/`admin`. Note that
-[lab-01](../lab-01/README.md) differs — all its IOL devices use `admin`/`admin`.
+CORE/DIST use `vagrant`/`vagrant`, ACCESS uses `admin`/`admin`.
 
 ---
 

@@ -6,7 +6,6 @@ Multi-layer network lab examples using [netlab](https://netlab.tools/), with a [
 
 | Lab                 | Description                                                               |
 | ------------------- | ------------------------------------------------------------------------- |
-| [lab-01](./lab-01/) | Pure Containerlab lab — all devices run as containers                     |
 | [lab-02](./lab-02/) | Hybrid lab — libvirt VMs (IOSv/IOSvL2) mixed with containers (IOL, Linux) |
 
 ## Nornir MCP Server
@@ -34,15 +33,14 @@ In Claude Code, run `/mcp` to reconnect the server. The MCP config is in `.mcp.j
 
 ### Credentials
 
-One shared Nornir inventory (`inventory/`) serves whichever lab is currently up — there is a single `config.yaml` and `.mcp.json`. Credentials differ per lab because the device platforms differ:
+One shared Nornir inventory (`inventory/`) serves the lab — there is a single `config.yaml` and `.mcp.json`. Credentials differ by device platform:
 
 | Lab | Devices | Username | Password |
 | --- | ------- | -------- | -------- |
-| lab-01 (all IOL containers) | R1, D1, D2, S1, S2 | `admin` | `admin` |
 | lab-02 (IOSv/IOSvL2 VMs)    | R1, D1, D2          | `vagrant` | `vagrant` |
 | lab-02 (IOL containers)     | S1, S2              | `admin` | `admin` |
 
-When switching labs, update `inventory/groups.yaml` (per-group `username`/`password`) and `inventory/hosts.yaml` (management IPs from `netlab status`) to match the active lab.
+Ensure `inventory/groups.yaml` (per-group `username`/`password`) and `inventory/hosts.yaml` (management IPs from `netlab status`) match these device credentials.
 
 ### Inventory Structure
 
