@@ -6,6 +6,12 @@ CORE:
   password: vagrant
   platform: ios
   data: core
+  connection_options:
+    napalm:
+      platform: ios
+      extras:
+        optional_args:
+          dest_file_system: "flash:"
 DIST:
   hosts:
     D1:
@@ -14,6 +20,12 @@ DIST:
   password: vagrant
   platform: ios
   data: dist
+  connection_options:
+    napalm:
+      platform: ios
+      extras:
+        optional_args:
+          dest_file_system: "flash:"
 ACCESS:
   hosts:
     S1:
@@ -28,4 +40,3 @@ ACCESS:
       extras:
         optional_args:
           dest_file_system: "unix:"
-          inline_transfer: true

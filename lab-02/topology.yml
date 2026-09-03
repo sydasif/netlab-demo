@@ -60,6 +60,7 @@ groups:
   ACCESS:
     members: [S1, S2]
     module: [vlan]
+    config: [template]
     vlan:
       mode: bridge
   VLAN_10:
