@@ -15,7 +15,6 @@ defaults:
 nodes:
   R1:
     device: iosv
-    module: [ospf]
   D1:
     device: iosvl2
   D2:
@@ -48,6 +47,10 @@ vlans:
     links: [H2-S2, H3-S1]
 
 groups:
+  CORE:
+    members: [R1]
+    module: [ospf]
+    config: [template]
   DISTRIBUTION:
     members: [D1, D2]
     module: [vlan, ospf]

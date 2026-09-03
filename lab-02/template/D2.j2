@@ -1,11 +1,15 @@
 ip scp server enable
 !
+archive
+path flash:archive
+!
 interface Vlan10
  vrrp 10 ip 172.16.0.254
  vrrp 10 priority 100
  vrrp 10 preempt
-
+!
 interface Vlan20
  vrrp 20 ip 172.16.1.254
  vrrp 20 priority 110
  vrrp 20 preempt
+!

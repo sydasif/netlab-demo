@@ -4,5 +4,11 @@ connection_options:
     platform: ios
     extras:
       optional_args:
-        allow_agent: false
-        look_for_keys: false
+        timeout: 90
+        global_delay_factor: 2
+  netmiko:
+    extras:
+      conn_timeout: 90
+  paramiko:
+    extras:
+    conn_timeout: 90
