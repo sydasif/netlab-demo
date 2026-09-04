@@ -6,7 +6,7 @@
       "args": [
         "--from",
         "git+https://github.com/sydasif/nornir-napalm-mcp",
-        "nornir-napalm-mcp"
+        "nornir-mcp"
       ],
       "env": {
         "NORNIR_CONFIG": "/home/zulu/Projects/netlab-demo/config.yaml"
