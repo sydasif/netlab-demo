@@ -1,6 +1,6 @@
 # netlab-demo
 
-Multi-layer network lab examples using [netlab](https://netlab.tools/), with a [Nornir MCP server](https://github.com/sydasif/nornir-napalm-mcp) for AI-assisted network automation.
+Network lab examples using [Netlab.tools](https://netlab.tools/), with a [Nornir MCP](https://github.com/sydasif/nornir-napalm-mcp) for AI-assisted network automation.
 
 ## Labs
 
@@ -15,31 +15,18 @@ A Model Context Protocol (MCP) server that exposes network devices to AI assista
 
 **Source:** [github.com/sydasif/nornir-napalm-mcp](https://github.com/sydasif/nornir-napalm-mcp)
 
-### Available Tools
-
-| Tool                      | Description                                             |
-| ------------------------- | ------------------------------------------------------- |
-| `nornir_list_inventory`   | List all devices in the inventory                       |
-| `nornir_get_facts`        | Get device facts (vendor, model, OS, serial)            |
-| `nornir_get_config`       | Retrieve running/startup configuration                  |
-| `nornir_run_getter`       | Run any NAPALM getter (interfaces, routes, VLANs, etc.) |
-| `nornir_run_cli`          | Execute CLI commands on devices                         |
-| `nornir_ping`             | Send ICMP ping from a device                            |
-| `nornir_list_getters`     | List available NAPALM getters per platform              |
-| `nornir_reload_inventory` | Reload inventory from disk                              |
-
 ### Connecting
 
-In Claude Code, run `/mcp` to reconnect the server. The MCP config is in `.mcp.json`.
+In `Claude Code Cli`, run `/mcp` to reconnect the server. The MCP config is in `.mcp.json`.
 
 ### Credentials
 
-The shared Nornir inventory (`inventory/`) currently serves `lab-02`; `lab-01` is not included. There is a single `config.yaml` and `.mcp.json`. Credentials differ by device platform:
+The Nornir inventory (`inventory/`) currently serves `lab-02`; `lab-01` is not included. There is a single `config.yaml` and `.mcp.json`. Credentials differ by provider and lab type, as shown below:
 
-| Lab | Devices | Username | Password |
-| --- | ------- | -------- | -------- |
-| lab-02 (IOSv/IOSvL2 VMs)    | R1, D1, D2          | `vagrant` | `vagrant` |
-| lab-02 (IOL containers)     | S1, S2              | `admin` | `admin` |
+| Provider | Username | Password |
+| ------- | -------- | -------- |
+| Libvirt | `vagrant` | `vagrant` |
+| Clab | `admin` | `admin` |
 
 Ensure `inventory/groups.yaml` (per-group `username`/`password`) and `inventory/hosts.yaml` (management IPs from `netlab status`) match these device credentials.
 
@@ -49,12 +36,10 @@ Device details live in [inventory/hosts.yaml](./inventory/hosts.yaml), group def
 
 ## Prerequisites
 
-- Ubuntu 22.04+
+- Ubuntu `22.04+`
 - KVM/libvirt
 - Vagrant + vagrant-libvirt (hybrid labs)
 - Containerlab
 - netlab
-- Ansible
-- [uvx](https://docs.astral.sh/uv/) (for MCP server)
 
 See each lab's documentation for detailed setup and verification steps.
