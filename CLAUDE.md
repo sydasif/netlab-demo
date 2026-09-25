@@ -38,6 +38,12 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository demonstrates **network lab automation** using the `netlab` toolchain.
 
+### Lab-01 (OSPF)
+- Topology: `lab-01/topology.yml` — six Cisco IOL routers plus one passive Linux host, all on Containerlab
+- Areas: authenticated Area 0 backbone, Area 1 NSSA, and totally stubby Area 3
+- Expected election: `R02` is DR and `R14` is BDR
+- Not included in the shared Nornir inventory; see `lab-01/README.md` for operation and verification
+
 ### Lab-02 (Hybrid: libvirt VMs + Containerlab)
 - Topology: `lab-02/topology.yml` — mixes Cisco IOSv/IOSvL2 VMs (via Vagrant/libvirt) with IOL containers + Linux containers
 - Key constraint: **primary provider must be `libvirt`**; `clab` can only be a secondary (per-node) provider
@@ -47,7 +53,7 @@ This repository demonstrates **network lab automation** using the `netlab` toolc
 ### Inventory & Credentials
 
 - **`inventory/hosts.yaml`** — Nornir inventory read by MCP server (NORNIR_CONFIG → `config.yaml`)
-  - One shared inventory serves whichever lab is up; management IPs and credentials must match the active lab
+  - One shared inventory currently serves `lab-02`; management IPs and credentials must match that lab
   - lab-02: R1/D1/D2 (IOSv/IOSvL2 VMs) use `vagrant/vagrant`; S1/S2 (IOL containers) use `admin/admin` — current `groups.yaml` matches this lab
 - **`inventory/groups.yaml`** — group definitions (CORE, DIST, ACCESS) with per-group usernames/passwords/platform
 - **`inventory/defaults.yaml`** — Napalm connection extras (no agent, no key lookup)
@@ -71,7 +77,8 @@ This repository demonstrates **network lab automation** using the `netlab` toolc
 
 ### What's Already in This Repo (do not duplicate)
 
-- `README.md` — high-level project overview, prerequisites, setup, topology, verification, cleanup
+- `README.md` — project overview, lab index, MCP server, and prerequisites
+- `lab-01/README.md` — standalone OSPF topology, generation, runtime, and graph instructions
 - `lab-02/README.md` — hybrid lab (VM + container) guide with full deployment sequence
 - `config.yaml` — Nornir MCP server config (do not change `NORNIR_CONFIG` to a directory!)
 - `inventory/` — Nornir inventory files (hosts.yaml, groups.yaml, defaults.yaml)

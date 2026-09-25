@@ -1,0 +1,294 @@
+---
+provider: clab
+
+defaults:
+  device: iol
+  devices:
+    iol:
+      clab:
+        image: asifsyd/cisco_iol:17.12.01
+  outputs:
+    graph:
+      styles:
+        graph:
+          bgcolor: "#f8fafc"
+          rankdir: LR
+          nodesep: 0.8
+          ranksep: 1.2
+          pad: 0.35
+          splines: spline
+        node:
+          shape: box
+          bgcolor: "#ffffff"
+          style: "rounded,filled"
+          fontname: "DejaVu Sans"
+          fontsize: 11
+          fontcolor: "#0f172a"
+          color: "#334155"
+          fillcolor: "#ffffff"
+          penwidth: 1.4
+          margin: "0.24,0.14"
+        edge:
+          color: "#64748b"
+          fontname: "DejaVu Sans"
+          fontsize: 9
+          fontcolor: "#334155"
+          penwidth: 1.6
+        stub:
+          shape: box
+          style: "rounded,filled,dashed"
+          bgcolor: "#e2e8f0"
+          fillcolor: "#e2e8f0"
+          color: "#64748b"
+          fontcolor: "#334155"
+          penwidth: 1.2
+          margin: "0.24,0.14"
+        title:
+          fontname: "DejaVu Sans"
+          fontsize: 20
+          fontcolor: "#0f172a"
+          labelloc: t
+          labeljust: l
+
+plugin: [ospf.areas]
+
+graph:
+  title: OSPF Lab
+
+nodes:
+  R01:
+    id: 1
+    module: [ospf]
+    ospf:
+      router_id: 10.0.0.1
+    graph:
+      rank: 30
+      format:
+        bgcolor: "#dbeafe"
+        fillcolor: "#dbeafe"
+        color: "#2563eb"
+        penwidth: 1.8
+  R02:
+    id: 2
+    module: [ospf]
+    ospf:
+      router_id: 10.0.0.2
+    graph:
+      rank: 50
+      format:
+        bgcolor: "#dbeafe"
+        fillcolor: "#dbeafe"
+        color: "#2563eb"
+        penwidth: 1.8
+  R10:
+    id: 10
+    module: [ospf]
+    ospf:
+      area: 0.0.0.1
+      router_id: 10.0.0.10
+    graph:
+      rank: 70
+      format:
+        bgcolor: "#ffedd5"
+        fillcolor: "#ffedd5"
+        color: "#ea580c"
+        penwidth: 1.8
+  R12:
+    id: 12
+    module: [ospf]
+    ospf:
+      area: 0.0.0.3
+      router_id: 10.0.0.12
+    graph:
+      rank: 10
+      format:
+        bgcolor: "#ede9fe"
+        fillcolor: "#ede9fe"
+        color: "#7c3aed"
+        penwidth: 1.8
+  R13:
+    id: 13
+    module: [ospf]
+    ospf:
+      area: 0.0.0.3
+      router_id: 10.0.0.13
+    graph:
+      rank: 10
+      format:
+        bgcolor: "#ede9fe"
+        fillcolor: "#ede9fe"
+        color: "#7c3aed"
+        penwidth: 1.8
+  R14:
+    id: 14
+    module: [ospf]
+    ospf:
+      router_id: 10.0.0.14
+    graph:
+      rank: 30
+      format:
+        bgcolor: "#dbeafe"
+        fillcolor: "#dbeafe"
+        color: "#2563eb"
+        penwidth: 1.8
+  L01:
+    device: linux
+    role: host
+    graph:
+      rank: 90
+      linkorder: 200
+      format:
+        bgcolor: "#dcfce7"
+        fillcolor: "#dcfce7"
+        color: "#16a34a"
+        penwidth: 1.8
+
+ospf:
+  process: 1
+  area: 0.0.0.0
+  af:
+    ipv4: true
+
+ospf.areas:
+  - area: 0.0.0.1
+    kind: nssa
+  - area: 0.0.0.3
+    kind: stub
+    inter_area: false
+
+links:
+  - name: R12 to R01
+    type: p2p
+    prefix: 10.12.0.0/24
+    ospf:
+      area: 0.0.0.3
+      cost: 7
+      network_type: point-to-point
+    graph:
+      rank: 20
+      format:
+        color: "#7c3aed"
+        penwidth: 2.2
+    R12:
+      ifindex: 3
+      ipv4: 10.12.0.12/24
+    R01:
+      ifindex: 3
+      ipv4: 10.12.0.1/24
+
+  - name: R12 to R14
+    type: p2p
+    prefix: 10.12.14.0/24
+    ospf:
+      area: 0.0.0.3
+      cost: 7
+      network_type: point-to-point
+    graph:
+      rank: 20
+      format:
+        color: "#7c3aed"
+        penwidth: 2.2
+    R12:
+      ifindex: 1
+      ipv4: 10.12.14.12/24
+    R14:
+      ifindex: 1
+      ipv4: 10.12.14.14/24
+
+  - name: R13 to R01
+    type: p2p
+    prefix: 10.13.0.0/24
+    ospf:
+      area: 0.0.0.3
+      cost: 7
+      network_type: point-to-point
+    graph:
+      rank: 20
+      format:
+        color: "#7c3aed"
+        penwidth: 2.2
+    R13:
+      ifindex: 1
+      ipv4: 10.13.0.13/24
+    R01:
+      ifindex: 1
+      ipv4: 10.13.0.1/24
+
+  - name: R13 to R14
+    type: p2p
+    prefix: 10.13.14.0/24
+    ospf:
+      area: 0.0.0.3
+      cost: 10
+      network_type: point-to-point
+    graph:
+      rank: 20
+      format:
+        color: "#7c3aed"
+        penwidth: 2.2
+    R13:
+      ifindex: 3
+      ipv4: 10.13.14.13/24
+    R14:
+      ifindex: 3
+      ipv4: 10.13.14.14/24
+
+  - name: Area 0 authenticated backbone
+    type: lan
+    prefix: 10.0.99.0/24
+    ospf:
+      area: 0.0.0.0
+      cost: 5
+      network_type: broadcast
+      password: OSPF
+    graph:
+      rank: 40
+      format:
+        color: "#2563eb"
+        penwidth: 2.8
+    R01:
+      ifindex: 2
+      ipv4: 10.0.99.1/24
+      ospf.priority: 1
+    R14:
+      ifindex: 2
+      ipv4: 10.0.99.14/24
+      ospf.priority: 1
+    R02:
+      ifindex: 2
+      ipv4: 10.0.99.2/24
+      ospf.priority: 10
+
+  - name: Area 1 NSSA
+    type: p2p
+    prefix: 10.2.10.0/24
+    ospf:
+      area: 0.0.0.1
+      cost: 10
+      network_type: point-to-point
+    graph:
+      rank: 60
+      format:
+        color: "#ea580c"
+        penwidth: 2.2
+    R02:
+      ifindex: 1
+      ipv4: 10.2.10.2/24
+    R10:
+      ifindex: 1
+      ipv4: 10.2.10.10/24
+
+  - name: R10 L01 LAN
+    type: lan
+    role: stub
+    prefix: 192.168.0.0/20
+    graph:
+      rank: 80
+      format:
+        color: "#16a34a"
+        penwidth: 2.0
+    R10:
+      ifindex: 2
+      ipv4: 192.168.0.10/20
+    L01:
+      ipv4: 192.168.0.1/20

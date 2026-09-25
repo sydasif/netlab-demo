@@ -6,6 +6,7 @@ Multi-layer network lab examples using [netlab](https://netlab.tools/), with a [
 
 | Lab                 | Description                                                               |
 | ------------------- | ------------------------------------------------------------------------- |
+| [lab-01](./lab-01/) | OSPF lab — six Cisco IOL routers, one Linux host, and Graphviz output     |
 | [lab-02](./lab-02/) | Hybrid lab — libvirt VMs (IOSv/IOSvL2) mixed with containers (IOL, Linux) |
 
 ## Nornir MCP Server
@@ -33,7 +34,7 @@ In Claude Code, run `/mcp` to reconnect the server. The MCP config is in `.mcp.j
 
 ### Credentials
 
-One shared Nornir inventory (`inventory/`) serves the lab — there is a single `config.yaml` and `.mcp.json`. Credentials differ by device platform:
+The shared Nornir inventory (`inventory/`) currently serves `lab-02`; `lab-01` is not included. There is a single `config.yaml` and `.mcp.json`. Credentials differ by device platform:
 
 | Lab | Devices | Username | Password |
 | --- | ------- | -------- | -------- |

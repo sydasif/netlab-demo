@@ -7,3 +7,6 @@ netlab*
 .vagrant
 node_files/
 Vagrantfile
+config/
+ospf.dot
+ospf.png
